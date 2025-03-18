@@ -1,31 +1,36 @@
-#include<stdio.h>
+#include <stdio.h>
 #include<time.h>
-int a[50000],n;
+int a[20],n;
+void simple_sort(int [],int,int,int);
+void merge_sort(int[],int,int);
+int main()
+{
+    int i;
+    clock_t start, end;
+    double time_taken;
 
-void simple_sort(int a[],int low,int mid,int high){
-    int i=low,j=mid+1,k=low;
-    int c[n];
-    while(i<=mid && j<=high){
-        if(a[i]<a[j]){
-            c[k++]=a[i];
-            i++;
-        }
-        else{
-            c[k++]=a[j];
-            j++;
-        }
+    printf("Enter the no. of elements:");
+    scanf("%d", &n);
+    printf("Enter the array elements:");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
     }
-    while(i<=mid){
-        c[k++]=a[i];
-        i++;
+
+    start = clock();
+    merge_sort(a, 0, n - 1);
+    end = clock();
+
+    time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+
+    printf("Sorted array:");
+    for (i = 0; i < n; i++) {
+        printf("%d ", a[i]);
     }
-    while(j<=high){
-        c[k++]=a[j];
-        j++;
-    }
-    for(int i=0;i<=high;i++){
-        a[i]=c[i];
-    }
+    printf("\n");
+
+    printf("Time taken to sort: %f seconds\n", time_taken);
+
+    return 0;
 }
 
 void merge_sort(int a[],int low, int high){
@@ -37,31 +42,28 @@ void merge_sort(int a[],int low, int high){
     }
 }
 
-int main(){
-    clock_t start, end;
-    double time_taken;
-
-    printf("Enter the number of Elements in an Array : ");
-    scanf("%d",&n);
-
-    printf("Enter the array Elements : ");
-    for(int i=0; i<n; i++){
-        scanf("%d",&a[i]);
+void simple_sort(int a[],int low, int mid, int high){
+    int i=low,j=mid+1,k=low;
+    int c[n];
+    while(i<=mid && j<=high){
+        if(a[i]<a[j]){   
+            c[k++]=a[i];
+            i++;
+        }else{
+            c[k++]=a[j];
+            j++;
+        }
     }
-
-    start = clock();
-    merge_sort(a,0,n-1);
-    end = clock();
-
-    printf("The Sorted Array Elements : ");
-    for(int i=0; i<n; i++){
-        printf("%d ",a[i]);
+    
+    while(i<=mid){
+        c[k++]=a[i];
+        i++;
     }
-    printf("\n");
-
-    time_taken = (double)(end - start)/CLOCKS_PER_SEC;
-    printf("The time taken to sort the elements : %fseconds",time_taken);
-
-    return 0;
+    while(j<=high){
+        c[k++]=a[j];
+        j++;
+    }
+    for(i=low;i<=high;i++){
+        a[i]=c[i];
+    }
 }
-
